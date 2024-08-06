@@ -1,3 +1,4 @@
+```python
 import numpy as np
 from stl import mesh
 from PIL import Image, ImageFilter
@@ -50,11 +51,21 @@ def create_3d_mesh_with_enhanced_detail(image_path, output_path, resolution=(200
             faces.append([b_v1, b_v2, b_v3])
             faces.append([b_v2, b_v4, b_v3])
 
+    # Add edges to the mesh for better representation
+    edges = []
+    for i in range(x_len):
+        edges.extend([(i, x_len + j) for j in range(y_len)])
+    for j in range(y_len):
+        edges.extend([(x_len + i, y_len + j) for i in range(x_len)])
+
     # Creating the mesh
     logo_mesh = mesh.Mesh(np.zeros(len(faces), dtype=mesh.Mesh.dtype))
     for i, f in enumerate(faces):
         for j in range(3):
             logo_mesh.vectors[i][j] = vertices[f[j], :]
+
+    # Add edges to the STL file
+    logo_mesh.add_edges(edges)
 
     # Save to STL
     logo_mesh.save(output_path)
@@ -64,7 +75,8 @@ def create_3d_mesh_with_enhanced_detail(image_path, output_path, resolution=(200
 image_path = r"C:\Users\yegor\Desktop\Atlas\Atlas.png"
 output_stl_path = r"C:\Users\yegor\Desktop\ss.stl"
 
-# Create and save the 3D mesh with enhanced detail and backplate
+# Create and save the 3D mesh with enhanced detail, backplate, and edges
 create_3d_mesh_with_enhanced_detail(image_path, output_stl_path)
 
 output_stl_path
+```
