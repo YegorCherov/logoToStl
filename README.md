@@ -2,43 +2,43 @@
 
 # Image to 3D STL Generator
 
-This Python script converts a 2D image logo into a single, perfectly scaled, 3D printable STL file. It bakes your desired dimensions directly into the mesh, ensuring it imports into OrcaSlicer, Bambu Studio, or Cura at the exact physical size specified.
+Converts a 2D image logo into a single 3D printable STL file, baseplate and logo details combined into one mesh. Physical dimensions are baked into the geometry at export time, so the model loads into OrcaSlicer, Bambu Studio, or Cura at the exact size you set, no rescaling needed.
 
 ## Features
 
-* Single file output containing both the baseplate and the logo details.
-* Automatic nozzle filtering to erase lines and details too thin for your printer nozzle.
-* Exact millimeter scaling to prevent sizing errors in slicing software.
-* Raised mode to place the logo details on top of the baseplate.
-* Etched mode to carve the logo details into the plate while leaving a solid floor underneath.
-* Clean vertical walls with adjustable edge smoothing to minimize printer vibrations.
+- Single STL output, baseplate and logo geometry combined
+- Nozzle-aware filtering removes lines and details thinner than your nozzle can print
+- Millimeter-accurate scaling baked into the mesh
+- Raised mode: logo sits on top of the baseplate
+- Etched mode: logo is carved into the plate, solid floor underneath
+- Adjustable edge smoothing on vertical walls to reduce print vibration artifacts
 
-## Prerequisites
-
-You need Python and the following libraries installed:
+## Requirements
 
 ```bash
 pip install numpy numpy-stl opencv-python
 ```
 
-## Quick Start
+## Quick start
 
-1. Save the Python script to your computer.
-2. Open the script and set your image input and STL output paths at the bottom.
-3. Run the script:
+1. Save the script locally.
+2. Set your input image and output STL paths at the bottom of the script.
+3. Run it:
 
 ```bash
 python generator.py
 ```
 
-## Configuration Parameters
+## Configuration
 
-You can control all physical dimensions directly inside the script call:
+All physical parameters are set inside the script call.
 
-* `target_width_mm`: The exact width of the final 3D model in millimeters when imported into your slicer.
-* `backplate_thickness_mm`: The total thickness of your base plate in millimeters.
-* `logo_height_mm`: The height of the raised logo details, or the depth of the etched carving.
-* `nozzle_diameter_mm`: Your printer nozzle diameter. Any details smaller than this are automatically deleted to prevent unprintable paths.
-* `inverse`: Set to False to etch the logo into the plate, or True to raise the logo on top of the plate.
-* `invert_logo`: Set to True if your source image has a dark logo on a light background.
-* `resolution_limit`: Controls the density of the 3D mesh. A value of 450 keeps detail high while maintaining a small file size.
+| Parameter | Description |
+|---|---|
+| `target_width_mm` | Final model width in mm, as it will import into your slicer |
+| `backplate_thickness_mm` | Total thickness of the base plate, in mm |
+| `logo_height_mm` | Height of raised details, or depth of etched details |
+| `nozzle_diameter_mm` | Your nozzle diameter; details smaller than this are dropped automatically |
+| `inverse` | `False` to etch the logo into the plate, `True` to raise it above the plate |
+| `invert_logo` | `True` if the source image has a dark logo on a light background |
+| `resolution_limit` | Mesh density; 450 is a good default for high detail without a large file size |
